@@ -37,22 +37,22 @@ const UpdateProfil = () => {
           <div className="bio-update">
             <h3>Bio</h3>
             {updateForm === false && (
-              <>
+              <React.Fragment>
                 <p onClick={() => setUpdateForm(!updateForm)}>{userData.bio}</p>
                 <button onClick={() => setUpdateForm(!updateForm)}>
                   Modifier bio
                 </button>
-              </>
+              </React.Fragment>
             )}
             {updateForm && (
-              <>
+              <React.Fragment>
                 <textarea
                   type="text"
                   defaultValue={userData.bio}
                   onChange={(e) => setBio(e.target.value)}
                 ></textarea>
                 <button onClick={handleUpdate}>Valider modifications</button>
-              </>
+              </React.Fragment>
             )}
           </div>
           <h4>Membre depuis le : {dateParser(userData.createdAt)}</h4>
@@ -80,11 +80,14 @@ const UpdateProfil = () => {
                         <img src={user.picture} alt="user-pic" />
                         <h4>{user.pseudo}</h4>
                         <div className="follow-handler">
-                          <FollowHandler idToFollow={user._id} type={'suggestion'} />
+                          <FollowHandler
+                            idToFollow={user._id}
+                            type={"suggestion"}
+                          />
                         </div>
                       </li>
                     );
-                  } 
+                  }
                 }
                 return null;
               })}
@@ -108,7 +111,10 @@ const UpdateProfil = () => {
                         <img src={user.picture} alt="user-pic" />
                         <h4>{user.pseudo}</h4>
                         <div className="follow-handler">
-                          <FollowHandler idToFollow={user._id} type={'suggestion'} />
+                          <FollowHandler
+                            idToFollow={user._id}
+                            type={"suggestion"}
+                          />
                         </div>
                       </li>
                     );

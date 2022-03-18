@@ -24,7 +24,7 @@ const Trends = () => {
   return (
     <div className="trending-container">
       <h4>Trending</h4>
-      <NavLink exact to="/trending">
+      <NavLink to="/trending">
         <ul>
           {trendList.length &&
             trendList.map((post) => {
@@ -42,13 +42,19 @@ const Trends = () => {
                       ></iframe>
                     )}
                     {isEmpty(post.picture) && isEmpty(post.video) && (
-                      <img src={usersData[0] && usersData.map((user) => {
-                        if (user._id === post.posterId) {
-                          return user.picture;
-                        } else return null;
-                      })
-                      .join("")
-                    } alt="profil-pic"/>
+                      <img
+                        src={
+                          usersData[0] &&
+                          usersData
+                            .map((user) => {
+                              if (user._id === post.posterId) {
+                                return user.picture;
+                              } else return null;
+                            })
+                            .join("")
+                        }
+                        alt="profil-pic"
+                      />
                     )}
                   </div>
                   <div className="trend-content">

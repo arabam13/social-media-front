@@ -14,8 +14,13 @@ const FriendsHint = () => {
     const notFriendList = () => {
       let array = [];
       usersData.map((user) => {
-        if (user._id !== userData._id && !user.followers.includes(userData._id))
+        if (
+          user._id !== userData._id &&
+          !user.followers.includes(userData._id)
+        ) {
           return array.push(user._id);
+        }
+        return null;
       });
       array.sort(() => 0.5 - Math.random());
       if (window.innerHeight > 780) {
@@ -64,6 +69,7 @@ const FriendsHint = () => {
                   );
                 }
               }
+              // return user;
             })}
         </ul>
       )}

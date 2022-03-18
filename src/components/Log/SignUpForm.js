@@ -55,15 +55,15 @@ const SignUpForm = () => {
   };
 
   return (
-    <>
+    <React.Fragment>
       {formSubmit ? (
-        <>
+        <React.Fragment>
           <SignInForm />
           <span></span>
           <h4 className="success">
             Enregistrement réussi, veuillez-vous connecter
           </h4>
-        </>
+        </React.Fragment>
       ) : (
         <form action="" onSubmit={handleRegister} id="sign-up-form">
           <label htmlFor="pseudo">Pseudo</label>
@@ -100,7 +100,7 @@ const SignUpForm = () => {
           <div className="password error"></div>
           <br />
           <label htmlFor="password-conf">Confirmer mot de passe</label>
-          <br/>
+          <br />
           <input
             type="password"
             name="password"
@@ -122,7 +122,7 @@ const SignUpForm = () => {
           <input type="submit" value="Valider inscription" />
         </form>
       )}
-    </>
+    </React.Fragment>
   );
 };
 

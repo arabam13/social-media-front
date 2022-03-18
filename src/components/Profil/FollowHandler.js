@@ -27,20 +27,26 @@ const FollowHandler = ({ idToFollow, type }) => {
   }, [userData, idToFollow]);
 
   return (
-    <>
+    <React.Fragment>
       {isFollowed && !isEmpty(userData) && (
         <span onClick={handleUnfollow}>
-          {type === "suggestion" && <button className="unfollow-btn">Abonné</button>}
-          {type === "card" && <img src="./img/icons/checked.svg" alt="checked"/>}
+          {type === "suggestion" && (
+            <button className="unfollow-btn">Abonné</button>
+          )}
+          {type === "card" && (
+            <img src="./img/icons/checked.svg" alt="checked" />
+          )}
         </span>
       )}
       {isFollowed === false && !isEmpty(userData) && (
         <span onClick={handleFollow}>
-          {type === "suggestion" && <button className="follow-btn">Suivre</button>}
-          {type === "card" && <img src="./img/icons/check.svg" alt="check"/>}
+          {type === "suggestion" && (
+            <button className="follow-btn">Suivre</button>
+          )}
+          {type === "card" && <img src="./img/icons/check.svg" alt="check" />}
         </span>
       )}
-    </>
+    </React.Fragment>
   );
 };
 
