@@ -35,15 +35,22 @@ export const getPosts = (num) => {
 
 export const addPost = (data) => {
   return (dispatch) => {
-    return axios
-      .post(`${process.env.REACT_APP_API_URL}api/post/`, data)
+    return axios({
+      method: "post",
+      url: `${process.env.REACT_APP_API_URL}api/post/`,
+      data: data,
+    })
       .then((res) => {
         if (res.data.errors) {
           dispatch({ type: GET_POST_ERRORS, payload: res.data.errors });
         } else {
-          dispatch({ type: GET_POST_ERRORS, payload: "" });
+          dispatch({
+            type: ADD_POST,
+            payload: res.data,
+          });
         }
-      });
+      })
+      .catch((err) => console.log(err));
   };
 };
 

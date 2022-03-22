@@ -32,7 +32,7 @@ const Card = ({ post }) => {
       {isLoading ? (
         <i className="fas fa-spinner fa-spin"></i>
       ) : (
-        <>
+        <React.Fragment>
           <div className="card-left">
             <img
               src={
@@ -115,7 +115,7 @@ const Card = ({ post }) => {
             </div>
             {showComments && <CardComments post={post} />}
           </div>
-        </>
+        </React.Fragment>
       )}
     </li>
   );

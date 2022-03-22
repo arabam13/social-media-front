@@ -69,7 +69,7 @@ const FriendsHint = () => {
                   );
                 }
               }
-              // return user;
+              return null;
             })}
         </ul>
       )}

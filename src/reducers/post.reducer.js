@@ -1,4 +1,5 @@
 import {
+  ADD_POST,
   DELETE_COMMENT,
   DELETE_POST,
   EDIT_COMMENT,
@@ -13,6 +14,8 @@ const initialState = {};
 export default function postReducer(state = initialState, action) {
   switch (action.type) {
     case GET_POSTS:
+      return action.payload;
+    case ADD_POST:
       return action.payload;
     case LIKE_POST:
       return state.map((post) => {

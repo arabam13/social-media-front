@@ -16,12 +16,16 @@ const NewPostForm = () => {
 
   const handlePost = async () => {
     if (message || postPicture || video) {
-      const data = new FormData();
-      data.append("posterId", userData._id);
-      data.append("message", message);
-      if (file) data.append("file", file);
-      data.append("video", video);
+      let formData = new FormData();
+      formData.append("posterId", userData._id);
+      formData.append("message", message);
+      if (file) formData.append("file", file);
+      if (video) formData.append("video", video);
 
+      // console.log(formData.get("message"));
+      // console.log(Object.fromEntries(formData));
+      let data = Object.fromEntries(formData);
+      console.log(data);
       await dispatch(addPost(data));
       dispatch(getPosts());
       cancelPost();
@@ -31,6 +35,8 @@ const NewPostForm = () => {
   };
 
   const handlePicture = (e) => {
+    // console.log(e.target.files[0]);
+    e.preventDefault();
     setPostPicture(URL.createObjectURL(e.target.files[0]));
     setFile(e.target.files[0]);
     setVideo("");
@@ -69,7 +75,7 @@ const NewPostForm = () => {
       {isLoading ? (
         <i className="fas fa-spinner fa-pulse"></i>
       ) : (
-        <>
+        <React.Fragment>
           <div className="data">
             <p>
               <span>{userData.following ? userData.following.length : 0}</span>{" "}
@@ -126,7 +132,7 @@ const NewPostForm = () => {
             <div className="footer-form">
               <div className="icon">
                 {isEmpty(video) && (
-                  <>
+                  <React.Fragment>
                     <img src="./img/icons/picture.svg" alt="img" />
                     <input
                       type="file"
@@ -135,7 +141,7 @@ const NewPostForm = () => {
                       accept=".jpg, .jpeg, .png"
                       onChange={(e) => handlePicture(e)}
                     />
-                  </>
+                  </React.Fragment>
                 )}
                 {video && (
                   <button onClick={() => setVideo("")}>Supprimer video</button>
@@ -155,7 +161,7 @@ const NewPostForm = () => {
               </div>
             </div>
           </div>
-        </>
+        </React.Fragment>
       )}
     </div>
   );
