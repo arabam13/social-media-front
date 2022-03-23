@@ -24,9 +24,9 @@ const NewPostForm = () => {
 
       // console.log(formData.get("message"));
       // console.log(Object.fromEntries(formData));
-      let data = Object.fromEntries(formData);
-      console.log(data);
-      await dispatch(addPost(data));
+      // let data = Object.fromEntries(formData);
+      // console.log(formData);
+      await dispatch(addPost(formData));
       dispatch(getPosts());
       cancelPost();
     } else {
