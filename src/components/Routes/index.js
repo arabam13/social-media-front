@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 // import { BrowserRouter as Router, Redirect, Route, Routes, Switch } from 'react-router-dom';
 import Home from "../../pages/Home";
 import Profil from "../../pages/Profil";
@@ -14,6 +14,7 @@ const index = () => {
         <Route path="/" element={<Home />} />
         <Route path="/profil" element={<Profil />} />
         <Route path="/trending" element={<Trending />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>
   );

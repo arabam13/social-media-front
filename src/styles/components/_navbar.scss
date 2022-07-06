@@ -31,7 +31,7 @@ nav {
     justify-content: space-between;
     height: 45px;
     align-items: center;
-    
+
     .logo {
       display: flex;
       align-items: center;
@@ -54,7 +54,7 @@ nav {
       width: 35%;
       justify-content: space-between;
       font-size: 1.2rem;
-      
+     
       .welcome {
         transform: translateY(2px);
 
@@ -73,7 +73,7 @@ nav {
           height: 24px;
           width: 24px;
           cursor: pointer;
-          display: grid;
+          display: flex;
           align-items: center;
           justify-items: center;
           height: 100%;
