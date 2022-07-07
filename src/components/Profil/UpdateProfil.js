@@ -84,6 +84,7 @@ const UpdateProfil = () => {
                       <div className="follow-handler">
                         <FollowHandler
                           idToFollow={user._id}
+                          idToUnfollow={user._id}
                           type={"suggestion"}
                         />
                       </div>
@@ -111,6 +112,7 @@ const UpdateProfil = () => {
                     <div className="follow-handler">
                       <FollowHandler
                         idToFollow={user._id}
+                        idToUnfollow={user._id}
                         type={"suggestion"}
                       />
                     </div>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { followUser, unfollowUser } from "../../actions/user.actions";
 import { isEmpty } from "../Utils";
 
-const FollowHandler = ({ idToFollow, type }) => {
+const FollowHandler = ({ idToFollow, idToUnfollow, type }) => {
   const userData = useSelector((state) => state.userReducer);
   const [isFollowed, setIsFollowed] = useState(false);
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const FollowHandler = ({ idToFollow, type }) => {
   };
 
   const handleUnfollow = () => {
-    dispatch(unfollowUser(userData._id, idToFollow));
+    dispatch(unfollowUser(userData._id, idToUnfollow));
     setIsFollowed(false);
   };
 
