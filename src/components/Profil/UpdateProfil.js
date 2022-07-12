@@ -17,8 +17,8 @@ const UpdateProfil = () => {
   const [followersPopup, setFollowersPopup] = useState(false);
 
   const handleUpdate = () => {
-    dispatch(updateBio(userData._id, bio));
-    setUpdateForm(false);
+    bio && dispatch(updateBio(userData._id, bio));
+    setUpdateForm(!updateForm);
   };
 
   return (

@@ -3,32 +3,63 @@ import { useDispatch, useSelector } from "react-redux";
 import { isEmpty, timestampParser } from "../Utils";
 import { NavLink } from "react-router-dom";
 import { addPost, getPosts } from "../../actions/post.actions";
+import storage from "../storage";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const NewPostForm = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState("");
-  const [postPicture, setPostPicture] = useState(null);
-  const [video, setVideo] = useState("");
   const [file, setFile] = useState();
+  const [postPicture, setPostPicture] = useState(null);
+  const [url, setUrl] = useState("");
+  const [video, setVideo] = useState("");
   const userData = useSelector((state) => state.userReducer);
   const error = useSelector((state) => state.errorReducer.postError);
   const dispatch = useDispatch();
 
+  const callStaticActions = (formData) => {
+    formData = Object.fromEntries(formData);
+    dispatch(addPost(formData));
+    dispatch(getPosts());
+    cancelPost();
+  };
   const handlePost = async () => {
-    if (message || postPicture || video) {
+    if (message || video || file) {
       let formData = new FormData();
       formData.append("posterId", userData._id);
-      formData.append("message", message);
-      if (file) formData.append("file", file);
-      if (video) formData.append("video", video);
 
-      // console.log(formData.get("message"));
-      // console.log(Object.fromEntries(formData));
-      // let data = Object.fromEntries(formData);
-      // console.log(formData);
-      await dispatch(addPost(formData));
-      dispatch(getPosts());
-      cancelPost();
+      if (message && !video && file === undefined) {
+        formData.append("message", message);
+        callStaticActions(formData);
+      }
+      if (message && video && file === undefined) {
+        formData.append("message", message);
+        formData.append("video", video);
+        callStaticActions(formData);
+      }
+      if (!message && video && file === undefined) {
+        formData.append("video", video);
+        callStaticActions(formData);
+      }
+      if (file) {
+        const fileName = new Date().getTime() + file.name;
+        const storageRef = ref(storage, `/post/${fileName}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+              setUrl(url);
+            });
+          }
+        );
+      }
     } else {
       alert("Veuillez entrer un message");
     }
@@ -44,31 +75,55 @@ const NewPostForm = () => {
 
   const cancelPost = () => {
     setMessage("");
-    setPostPicture("");
-    setVideo("");
     setFile("");
+    setPostPicture("");
+    setUrl("");
+    setVideo("");
   };
 
   useEffect(() => {
     if (!isEmpty(userData)) setIsLoading(false);
 
     const handleVideo = () => {
-      let findLink = message.split(" ");
-      for (let i = 0; i < findLink.length; i++) {
-        if (
-          findLink[i].includes("https://www.yout") ||
-          findLink[i].includes("https://yout")
-        ) {
-          let embed = findLink[i].replace("watch?v=", "embed/");
-          setVideo(embed.split("&")[0]);
-          findLink.splice(i, 1);
-          setMessage(findLink.join(" "));
+      if (message) {
+        // let findLink = message.split(" ");
+        // for (let i = 0; i < findLink.length; i++) {
+        //   if (
+        //     findLink[i].includes("https://www.yout") ||
+        //     findLink[i].includes("https://yout")
+        //   ) {
+        //     let embed = findLink[i].replace("watch?v=", "embed/");
+        //     setVideo(embed.split("&")[0]);
+        //     findLink.splice(i, 1);
+        //     setMessage(findLink.join(" "));
+        //     setPostPicture("");
+        //   }
+        // }
+        if (/https:\/\/www.yout|https:\/\/yout/.test(message)) {
+          // setMessage(message.replace("watch?v=", "embed/"));
+          const indexHttps = message.search(
+            /https:\/\/www.yout|https:\/\/yout/
+          );
+          setVideo(message.replace("watch?v=", "embed/").slice(indexHttps));
+          setMessage(
+            message.replace("watch?v=", "embed/").slice(0, indexHttps)
+          );
           setPostPicture("");
         }
       }
     };
     handleVideo();
-  }, [userData, message, video]);
+
+    if (file && url) {
+      let formData = new FormData();
+      formData.append("posterId", userData._id);
+      formData.append("message", message);
+      formData.append("urlImage", url);
+      formData.append("fileSize", file.size);
+      formData.append("fileType", file.type);
+      callStaticActions(formData);
+    }
+  }, [userData, message, video, file, url]);
 
   return (
     <div className="post-container">

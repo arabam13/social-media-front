@@ -15,7 +15,7 @@ const Home = () => {
       <LeftNav />
       <div className="main">
         <div className="home-header">
-        {uid ? <NewPostForm /> : <Log signin={true} signup={false} />}
+          {uid ? <NewPostForm /> : <Log signin={true} signup={false} />}
         </div>
         <Thread />
       </div>
